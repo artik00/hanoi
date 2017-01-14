@@ -20,7 +20,13 @@ public class wrapper {
 		if(args[0]!=null){
 			if(DIR_NAME_ARGUMENT.equals(args[0])){
 				path=args[1];
-				files.addAll(Arrays.asList(new File(path).listFiles()));
+				File location = new File(path);
+				if(location!=null && location.listFiles()!=null){
+					files.addAll(Arrays.asList(new File(path).listFiles()));
+				}
+				else{
+					System.out.println("The directory is empty or not exists");
+				}
 			}
 			else if(FILE_ARGUMENT.equals(args[0])){
 				path=args[1];
