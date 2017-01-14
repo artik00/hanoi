@@ -27,7 +27,8 @@ public class wrapper {
 				files.add(new File(path));
 			}
 			else if(GENERATE_ARGUMENT.equals(args[0])){
-				
+				HanoiSolutionFilesCreator tests = new HanoiSolutionFilesCreator();
+				tests.generateTests();
 			}
 		}
 		if(files != null && files.size()>0){
@@ -41,11 +42,11 @@ public class wrapper {
 				Solution possibleOne = hfr.getPossibleSolution();
 				HanoiBoard hb = new HanoiBoard(possibleOne.getNumberOfDisks());
 				if(hb.applySolution(possibleOne)){
-					System.out.println("Yes");
+					System.out.println(file.getName()+ " : " + "Yes");
 				}
 			}
 			catch(Exception e){
-				System.out.println("No");
+				System.out.println(file.getName()+ " : " + "No");
 				//e.printStackTrace(System.out);
 			}
 		}

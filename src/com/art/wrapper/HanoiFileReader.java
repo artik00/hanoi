@@ -8,6 +8,7 @@ import java.lang.IllegalArgumentException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.art.game.Constants;
 import com.art.game.Move;
 import com.art.game.Solution;
 
@@ -40,7 +41,7 @@ public class HanoiFileReader implements AutoCloseable{
 			} catch (IOException e) {
 				System.out.print("Error reading the file");
 			} catch(IllegalArgumentException e){
-				System.out.println("The specified file consists bad arguments");
+				System.out.println("The specified file consists of bad arguments");
 			}
 		}
 	}
@@ -59,7 +60,7 @@ public class HanoiFileReader implements AutoCloseable{
 		Move move = new Move();
 		validateLengthOfTheLine(line,2);
 		validateAllCharsAreNumbers(line);
-		validateNumbersValidity(line, maxNum, move);
+		validateNumbersInGivenRange(line, maxNum, move);
 		return move;
 	}
 	
@@ -72,10 +73,10 @@ public class HanoiFileReader implements AutoCloseable{
 		}
 	}
 	
-	private void validateNumbersValidity(String line, int maxNum, Move move) {
+	private void validateNumbersInGivenRange(String line, int maxNum, Move move) {
 		int source = Integer.parseInt(line.substring(0, 1));
 		int destination = Integer.parseInt(line.substring(1, 2));
-		if(source>maxNum || destination> maxNum || source < 1 || destination < 1){
+		if(source>Constants.DEFAULT_NUMBER_OF_RODS || destination> Constants.DEFAULT_NUMBER_OF_RODS|| source < 1 || destination < 1){
 			throw new IllegalArgumentException("Invalid argument in a line");
 		}
 		else{

@@ -30,4 +30,9 @@ public class Move {
 
 	}
 	
+	@Override
+	public String toString(){
+		return String.valueOf(source)+String.valueOf(destination);
+	}
+	
 }

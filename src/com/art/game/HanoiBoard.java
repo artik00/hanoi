@@ -5,15 +5,25 @@ import java.util.List;
 
 public class HanoiBoard {
 	
-	//I assume all the disks are on the first rod 
-	private final static int INITIAL_ROD_NUMBER = 1;
-	// I assume there are 3 rods only
-	private final static int DEFAULT_NUMBER_OF_RODS = 3;
+
 	
-	List<HanoiRod> rods = new LinkedList<HanoiRod>();
+	private List<HanoiRod> rods = new LinkedList<HanoiRod>();
 	
 
 	
+	public List<HanoiRod> getRods() {
+		return rods;
+	}
+	
+	public HanoiRod getRodAtIndex(int i){
+		if(i>=0 && i< rods.size()){
+			return rods.get(i);
+		}
+		else{
+			return null;
+		}
+	}
+
 	public HanoiBoard(int numberOfRods,int numOfDisk){
 		if(numberOfRods>1 && numOfDisk > 0){
 			//this is the first rod , will contain all the disk
@@ -28,7 +38,7 @@ public class HanoiBoard {
 	}
 	
 	public HanoiBoard(int numOfDisks){
-		this(DEFAULT_NUMBER_OF_RODS,numOfDisks);
+		this(Constants.DEFAULT_NUMBER_OF_RODS,numOfDisks);
 	}
 	
 	
@@ -51,7 +61,7 @@ public class HanoiBoard {
 				throw new UnsupportedOperationException();
 			}
 		}
-		return checkValidityOfSolution(INITIAL_ROD_NUMBER);
+		return checkValidityOfSolution(Constants.INITIAL_ROD_NUMBER);
 	}
 	/** This one will check if the disk moved from the initial rod
 	 *  to some other rod and validate that all the other rods are empty

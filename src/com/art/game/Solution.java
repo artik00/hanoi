@@ -37,5 +37,4 @@ public class Solution implements Iterable<Move>{
     }
 	
 	
-	
 }
