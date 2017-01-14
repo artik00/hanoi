@@ -12,55 +12,97 @@ import java.util.List;
 import com.art.game.Constants;
 import com.art.game.HanoiSolver;
 import com.art.game.Move;
-import com.art.game.Solution;
 
 public class HanoiSolutionFilesCreator {
 	
 
-	Path absolutePathForPositives;
-	Path absoulePathForNegatives;
+	private Path absolutePathForPositives;
+	private Path aboslutePathForNegatives;
+	private int targetRod = 3;
+	
+	
 	
 	public HanoiSolutionFilesCreator() {
 		Path currentRelativePath = Paths.get("");
 		String absolutePath = currentRelativePath.toAbsolutePath().toString();
 		absolutePathForPositives = Paths.get(absolutePath + "/" + Constants.POSITIVE_TESTS_DIR_NAME);
-		absoulePathForNegatives = Paths.get(absolutePath +"/"+ Constants.NEGATIVE_TESTS_DIR_NAME);
+		aboslutePathForNegatives = Paths.get(absolutePath +"/"+ Constants.NEGATIVE_TESTS_DIR_NAME);
 		createDirIfNotExists(absolutePathForPositives);
-		createDirIfNotExists(absoulePathForNegatives);
+		createDirIfNotExists(aboslutePathForNegatives);
 	}
 
+	/** This one gets a Path and creates if it doesn't exist.	
+	 * 
+	 * @param absolutePathForNewDirectory
+	 */
 	private void createDirIfNotExists(Path absolutePathForNewDirectory) {
 		if (!Files.exists(absolutePathForNewDirectory)) {
 	            try {
 	                Files.createDirectories(absolutePathForNewDirectory);
 	            } catch (IOException e) {
-	                //fail to create directory
+	                //failed to create directory
 	                e.printStackTrace();
 	            }
 	     }
 	}
 	
 	public void generateTests(){
-		generatePositiveTestsFiles();
-		generateNegativeTestsFiles();
+		//This one will generate positive ones
+		generateTestsFiles(false);
+		//this one will generate negative ones
+		generateTestsFiles(true);
 	}
 	
-	private void generatePositiveTestsFiles(){
-		int targetRod = 3;
+	
+	/** Generate test files , up to MAX_NUMBER_OF_DISKS	
+	 *  defined in constants class
+	 */
+	private void generateTestsFiles(boolean addErrors){
+		StringBuffer newFilename = new StringBuffer();
+		Path file;
+
 		for(int i=1; i<=Constants.MAX_NUMBER_OF_DISKS;i++){
-			String newFilename = Constants.POSITIVE_TEST_FILENAME_TEMPLATE+i;
-			Path file = Paths.get(absolutePathForPositives + "/" + newFilename);
-			HanoiSolver hs = new HanoiSolver(i, Constants.INITIAL_ROD_NUMBER, targetRod);
+			file = createFileName(addErrors, newFilename, i);
+			HanoiSolver hs = new HanoiSolver(i, Constants.INITIAL_ROD_NUMBER, targetRod,addErrors);
 			List<Move> moves = new ArrayList<Move>(hs.getMovesForSolution());
 			try {
-				Files.write(file,turnMovesListToStringList(moves,i), Charset.forName("UTF-8"));
+				if(addErrors && i%3==0){
+					Files.write(file,turnMovesListToStringList(moves,i+1), Charset.forName("UTF-8"));
+				}else{
+					Files.write(file,turnMovesListToStringList(moves,i), Charset.forName("UTF-8"));
+				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
+/** This for creates a right filename	
+ * 
+ * @param addErrors
+ * @param newFilename
+ * @param i
+ * @return
+ */
+	private Path createFileName(boolean addErrors, StringBuffer newFilename, int i) {
+		Path file;
+		newFilename.setLength(0);
+		if(addErrors){
+			newFilename.append(Constants.NEGATIVE_TEST_FILENAME_TEMPLATE);
+			file = Paths.get(aboslutePathForNegatives + "/" + newFilename+i);
+		}
+		else{
+			newFilename.append(Constants.POSITIVE_TEST_FILENAME_TEMPLATE);
+			file= Paths.get(absolutePathForPositives + "/" + newFilename+i);
+		}
+		return file;
+	}
 	
+	/** This one generates a list of strings that will be later
+	 *  written to the file , first line is the number of disks
+	 * @param moves - The moves array to create
+	 * @param numberOfDisks - first line of file
+	 * @return
+	 */
 	private List<String> turnMovesListToStringList(List<Move> moves,int numberOfDisks){
 		LinkedList<String> strings = new LinkedList<String>();
 		strings.add(String.valueOf(numberOfDisks));
@@ -68,10 +110,6 @@ public class HanoiSolutionFilesCreator {
 			strings.add(temp.toString());
 		}
 		return strings;
-	}
-	
-	private void generateNegativeTestsFiles(){
-		return;
 	}
 	
 }

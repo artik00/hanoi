@@ -37,11 +37,14 @@ public class HanoiFileReader implements AutoCloseable{
 				}
 				possibleSolution = new Solution(numberOfDisks, moves);
 			} catch (FileNotFoundException e) {
-				System.out.println("The specified file was not found : "+filePath);
+				if(Constants.VERBOSE==1)
+					System.out.println("The specified file was not found : "+filePath);
 			} catch (IOException e) {
-				System.out.print("Error reading the file");
+				if(Constants.VERBOSE==1)
+					System.out.print("Error reading the file");
 			} catch(IllegalArgumentException e){
-				System.out.println("The specified file consists of bad arguments");
+				if(Constants.VERBOSE==1)
+					System.out.println("The specified file consists of bad arguments");
 			}
 		}
 	}

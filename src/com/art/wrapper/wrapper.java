@@ -44,6 +44,9 @@ public class wrapper {
 				if(hb.applySolution(possibleOne)){
 					System.out.println(file.getName()+ " : " + "Yes");
 				}
+				else{
+					System.out.println(file.getName()+ " : " + "No");
+				}
 			}
 			catch(Exception e){
 				System.out.println(file.getName()+ " : " + "No");
