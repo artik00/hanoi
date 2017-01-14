@@ -27,9 +27,9 @@ public class HanoiFileReader implements AutoCloseable{
 			try {
 				bfReader = new BufferedReader(new FileReader(filePath));
 				List<Move> moves = new ArrayList<Move>();
-				String line;
-				line=bfReader.readLine();
-				validateNumberOfDisks(line);
+				String line=bfReader.readLine();
+				//validate the first number , should be number with numnber of disks
+				validateAllCharsAreNumbers(line);
 				int numberOfDisks=Integer.parseInt(line);
 				while((line =bfReader.readLine() )!= null){
 					Move temp = checkIsLineValid(line,numberOfDisks);
@@ -48,10 +48,6 @@ public class HanoiFileReader implements AutoCloseable{
 			}
 		}
 	}
-	private void validateNumberOfDisks(String line){
-		validateAllCharsAreNumbers(line);
-	}
-	
 	
 	/** This will check whether the given line is a possible move	
 	 *  will check that the number is small than the number of disks
@@ -63,10 +59,10 @@ public class HanoiFileReader implements AutoCloseable{
 		Move move = new Move();
 		validateLengthOfTheLine(line,2);
 		validateAllCharsAreNumbers(line);
-		validateNumbersInGivenRange(line, maxNum, move);
+		validateNumbersInGivenRange(line, move);
 		return move;
 	}
-	
+	//Will validate the length of the line with given number
 	private void validateLengthOfTheLine(String line,int rightLength) {
 		if(line.length()==rightLength){
 			return;
@@ -75,8 +71,12 @@ public class HanoiFileReader implements AutoCloseable{
 			throw new IllegalArgumentException("Invalid argument in a line");
 		}
 	}
-	
-	private void validateNumbersInGivenRange(String line, int maxNum, Move move) {
+	/** Will check that the given move is with-in a range 	
+	 * 
+	 * @param line - the line from file
+	 * @param move - creates a move
+	 */
+	private void validateNumbersInGivenRange(String line, Move move) {
 		int source = Integer.parseInt(line.substring(0, 1));
 		int destination = Integer.parseInt(line.substring(1, 2));
 		if(source>Constants.DEFAULT_NUMBER_OF_RODS || destination> Constants.DEFAULT_NUMBER_OF_RODS|| source < 1 || destination < 1){
@@ -87,7 +87,11 @@ public class HanoiFileReader implements AutoCloseable{
 			move.setDestination(destination);
 		}
 	}
-	
+	/** Check that the given line is made of numbers and no letters	
+	 * 
+	 * @param line
+	 * Throws IllegalArgumentException if not a number found
+	 */
 	private void validateAllCharsAreNumbers(String line) {
 		for (char c : line.toCharArray())
 		{
@@ -96,7 +100,9 @@ public class HanoiFileReader implements AutoCloseable{
 		    }
 		}
 	}
-	
+	/** This one will close a file reader and buffereader with no need for finally 	
+	 * 
+	 */
 	@Override
 	public void close() throws Exception {
 		if(reader!=null){

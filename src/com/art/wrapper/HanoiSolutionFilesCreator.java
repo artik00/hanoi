@@ -78,12 +78,12 @@ public class HanoiSolutionFilesCreator {
 			}
 		}
 	}
-/** This for creates a right filename	
+/** This one creates a right filename	
  * 
- * @param addErrors
- * @param newFilename
- * @param i
- * @return
+ * @param addErrors - to know what dir to use
+ * @param newFilename - filename to use
+ * @param i - index
+ * @return Path of the newly created file
  */
 	private Path createFileName(boolean addErrors, StringBuffer newFilename, int i) {
 		Path file;
