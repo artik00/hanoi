@@ -11,6 +11,7 @@ public class HanoiRod {
 			diskOrder.add(tempDisk);
 		}
 	}
+	
 	//init empty Rod
 	public HanoiRod(){
 		
@@ -19,7 +20,6 @@ public class HanoiRod {
 	public boolean isRodEmpty(){
 		return diskOrder.isEmpty();
 	}
-	
 	
 	/** Will try to add a given	disk to rod
 	 *  
@@ -35,7 +35,10 @@ public class HanoiRod {
 		}
 		return true;
 	}
-	
+	/**Try to remove the upper disk , 	
+	 * 
+	 * @return true if the operation was successful, false otherwise
+	 */
 	public boolean removeLastDisk(){
 		if(!isRodEmpty()){
 			diskOrder.removeLast();
@@ -45,7 +48,10 @@ public class HanoiRod {
 			return false;
 		}
 	}
-	
+	/** Return the upper disk from rod, with-out removing it.	
+	 * 
+	 * @return true is operation was successful, false otherwise
+	 */
 	public HanoiDisk getLast(){
 		if(!isRodEmpty()){
 			return diskOrder.getLast();

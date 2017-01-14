@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.art.game.Constants;
-import com.art.game.Move;
-import com.art.game.Solution;
+import com.art.game.HanoiMove;
+import com.art.game.HanoiSolution;
 
 public class HanoiFileReader implements AutoCloseable{
 
 	private FileReader reader;
 	private BufferedReader bfReader;
-	private Solution possibleSolution ;
+	private HanoiSolution possibleSolution ;
 	
-	public Solution getPossibleSolution() {
+	public HanoiSolution getPossibleSolution() {
 		return possibleSolution;
 	}
 
@@ -26,16 +26,16 @@ public class HanoiFileReader implements AutoCloseable{
 		if(filePath!=null){
 			try {
 				bfReader = new BufferedReader(new FileReader(filePath));
-				List<Move> moves = new ArrayList<Move>();
+				List<HanoiMove> moves = new ArrayList<HanoiMove>();
 				String line=bfReader.readLine();
 				//validate the first number , should be number with numnber of disks
 				validateAllCharsAreNumbers(line);
 				int numberOfDisks=Integer.parseInt(line);
 				while((line =bfReader.readLine() )!= null){
-					Move temp = checkIsLineValid(line,numberOfDisks);
+					HanoiMove temp = checkIsLineValid(line,numberOfDisks);
 					moves.add(temp);
 				}
-				possibleSolution = new Solution(numberOfDisks, moves);
+				possibleSolution = new HanoiSolution(numberOfDisks, moves);
 			} catch (FileNotFoundException e) {
 				if(Constants.VERBOSE==1)
 					System.out.println("The specified file was not found : "+filePath);
@@ -55,8 +55,8 @@ public class HanoiFileReader implements AutoCloseable{
 	 * @param line
 	 * @return
 	 */
-	private Move checkIsLineValid(String line,int maxNum) throws IllegalArgumentException{
-		Move move = new Move();
+	private HanoiMove checkIsLineValid(String line,int maxNum) throws IllegalArgumentException{
+		HanoiMove move = new HanoiMove();
 		validateLengthOfTheLine(line,2);
 		validateAllCharsAreNumbers(line);
 		validateNumbersInGivenRange(line, move);
@@ -76,7 +76,7 @@ public class HanoiFileReader implements AutoCloseable{
 	 * @param line - the line from file
 	 * @param move - creates a move
 	 */
-	private void validateNumbersInGivenRange(String line, Move move) {
+	private void validateNumbersInGivenRange(String line, HanoiMove move) {
 		int source = Integer.parseInt(line.substring(0, 1));
 		int destination = Integer.parseInt(line.substring(1, 2));
 		if(source>Constants.DEFAULT_NUMBER_OF_RODS || destination> Constants.DEFAULT_NUMBER_OF_RODS|| source < 1 || destination < 1){

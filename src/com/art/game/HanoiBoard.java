@@ -5,16 +5,16 @@ import java.util.List;
 
 public class HanoiBoard {
 	
-
-	
 	private List<HanoiRod> rods = new LinkedList<HanoiRod>();
-	
-
 	
 	public List<HanoiRod> getRods() {
 		return rods;
 	}
-	
+	/**Return a rod from given index	
+	 * 
+	 * @param i 0 index of rod , starts from 0!!!
+	 * @return rod or null
+	 */
 	public HanoiRod getRodAtIndex(int i){
 		if(i>=0 && i< rods.size()){
 			return rods.get(i);
@@ -36,12 +36,17 @@ public class HanoiBoard {
 			}
 		}
 	}
-	
+	/** Initiates a biard of hanoi, with given number of disks, 
+	 *  the default number of rods is defined in constants class
+	 * @param numOfDisks
+	 */
 	public HanoiBoard(int numOfDisks){
 		this(Constants.DEFAULT_NUMBER_OF_RODS,numOfDisks);
 	}
-	
-	
+	/** Add an empty rod to the board 	
+	 * 
+	 * @param rod
+	 */
 	private void addRod(HanoiRod rod){
 		if (rod!=null){
 			rods.add(rod);
@@ -50,9 +55,13 @@ public class HanoiBoard {
 			throw new NullPointerException();
 		}
 	}
-	
-	public boolean applySolution(Solution possibleSolution){
-		for(Move move: possibleSolution){
+	/** Try to apply given moves on a board	
+	 *  will throw an exception if the move is illegal
+	 * @param possibleSolution - list of moves
+	 * @return true if the solution was applied successfully , false otherwise
+	 */
+	public boolean applySolution(HanoiSolution possibleSolution){
+		for(HanoiMove move: possibleSolution){
 			HanoiDisk sourceDisk = rods.get(move.getSource()).getLast();
 			if(!rods.get(move.getSource()).removeLastDisk()){
 				throw new UnsupportedOperationException();
@@ -63,6 +72,7 @@ public class HanoiBoard {
 		}
 		return checkValidityOfSolution(Constants.INITIAL_ROD_NUMBER);
 	}
+	
 	/** This one will check if the disk moved from the initial rod
 	 *  to some other rod and validate that all the other rods are empty
 	 * @return

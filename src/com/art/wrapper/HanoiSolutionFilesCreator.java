@@ -11,16 +11,13 @@ import java.util.List;
 
 import com.art.game.Constants;
 import com.art.game.HanoiSolver;
-import com.art.game.Move;
+import com.art.game.HanoiMove;
 
 public class HanoiSolutionFilesCreator {
 	
 
 	private Path absolutePathForPositives;
 	private Path aboslutePathForNegatives;
-	private int targetRod = 3;
-	
-	
 	
 	public HanoiSolutionFilesCreator() {
 		Path currentRelativePath = Paths.get("");
@@ -64,8 +61,8 @@ public class HanoiSolutionFilesCreator {
 
 		for(int i=2; i<=Constants.MAX_NUMBER_OF_DISKS;i++){
 			file = createFileName(addErrors, newFilename, i);
-			HanoiSolver hs = new HanoiSolver(i, Constants.INITIAL_ROD_NUMBER, targetRod,addErrors);
-			List<Move> moves = new ArrayList<Move>(hs.getMovesForSolution());
+			HanoiSolver hs = new HanoiSolver(i, Constants.INITIAL_ROD_NUMBER, Constants.TARGET_ROD_NUMBER,addErrors);
+			List<HanoiMove> moves = new ArrayList<HanoiMove>(hs.getMovesForSolution());
 			try {
 				//Will present some errors 
 				if(addErrors && i%2==0){
@@ -105,10 +102,10 @@ public class HanoiSolutionFilesCreator {
 	 * @param numberOfDisks - first line of file
 	 * @return
 	 */
-	private List<String> turnMovesListToStringList(List<Move> moves,int numberOfDisks){
+	private List<String> turnMovesListToStringList(List<HanoiMove> moves,int numberOfDisks){
 		LinkedList<String> strings = new LinkedList<String>();
 		strings.add(String.valueOf(numberOfDisks));
-		for(Move temp: moves){
+		for(HanoiMove temp: moves){
 			strings.add(temp.toString());
 		}
 		return strings;

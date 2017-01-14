@@ -6,10 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.art.game.HanoiBoard;
-import com.art.game.Solution;
+import com.art.game.HanoiSolution;
 
 public class wrapper {
-
+	// arguments passed from the bash scipt 
+	// generate will generate test files
 	private static final String GENERATE_ARGUMENT = "generate";
 	private static final String FILE_ARGUMENT = "file";
 	private static final String DIR_NAME_ARGUMENT = "dir";
@@ -50,7 +51,7 @@ public class wrapper {
 	private static void iterateOnFiles(List<File> files) {
 		for(File file: files){
 			try(HanoiFileReader hfr = new HanoiFileReader(file.getAbsolutePath())){
-				Solution possibleOne = hfr.getPossibleSolution();
+				HanoiSolution possibleOne = hfr.getPossibleSolution();
 				HanoiBoard hb = new HanoiBoard(possibleOne.getNumberOfDisks());
 				if(hb.applySolution(possibleOne)){
 					System.out.println(file.getName()+ " : " + "Yes");

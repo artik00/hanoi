@@ -11,21 +11,21 @@ function printUsage(){
 	echo " -h same as -help"
 }
 
-if [ $? != 0 ] ; then
+if [[ $# == 0 ]] ; then
  	echo "No arguments enters";
 	printUsage 
 	exit 1 ;
- fi
-# check whether user had supplied -h or --help . If yes print usage 
-if [[ ( $# == "--help") ||  $# == "-h" ]] ; then 
-	printUsage
-	exit 0
-fi 
+fi
+
 
 while [[ $# -gt 0 ]]
 do
 key="$1"
 case $key in
+	-help|-h)
+	printUsage
+	shift
+	;;
 	-dir|-d)
 	DIRECTORY="$2"
 	shift
@@ -36,6 +36,10 @@ case $key in
 	;;
 	-generate|-gen)
 	GENERATE=true;
+	shift
+	;;
+	*)
+	printUsage
 	shift
 	;;
 esac
