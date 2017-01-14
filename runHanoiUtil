@@ -12,7 +12,7 @@ function printUsage(){
 }
 
 if [[ $# == 0 ]] ; then
- 	echo "No arguments enters";
+ 	echo "No arguments entered";
 	printUsage 
 	exit 1 ;
 fi
