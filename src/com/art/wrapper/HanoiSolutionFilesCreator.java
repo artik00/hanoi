@@ -34,6 +34,7 @@ public class HanoiSolutionFilesCreator {
 	/** This one gets a Path and creates if it doesn't exist.	
 	 * 
 	 * @param absolutePathForNewDirectory
+	 * Prints stack if failed to create a directory
 	 */
 	private void createDirIfNotExists(Path absolutePathForNewDirectory) {
 		if (!Files.exists(absolutePathForNewDirectory)) {
@@ -61,12 +62,13 @@ public class HanoiSolutionFilesCreator {
 		StringBuffer newFilename = new StringBuffer();
 		Path file;
 
-		for(int i=1; i<=Constants.MAX_NUMBER_OF_DISKS;i++){
+		for(int i=2; i<=Constants.MAX_NUMBER_OF_DISKS;i++){
 			file = createFileName(addErrors, newFilename, i);
 			HanoiSolver hs = new HanoiSolver(i, Constants.INITIAL_ROD_NUMBER, targetRod,addErrors);
 			List<Move> moves = new ArrayList<Move>(hs.getMovesForSolution());
 			try {
-				if(addErrors && i%3==0){
+				//Will present some errors 
+				if(addErrors && i%2==0){
 					Files.write(file,turnMovesListToStringList(moves,i+1), Charset.forName("UTF-8"));
 				}else{
 					Files.write(file,turnMovesListToStringList(moves,i), Charset.forName("UTF-8"));

@@ -41,7 +41,12 @@ public class wrapper {
 			iterateOnFiles(files);
 		}
 	}
-
+	/** Iterate on files and validate the solution specified in file	
+	 * 
+	 * @param files
+	 * Prints FILENAME : "Yes" if test passed
+	 * Prints FILENAME : "No" if test failed
+	 */ 
 	private static void iterateOnFiles(List<File> files) {
 		for(File file: files){
 			try(HanoiFileReader hfr = new HanoiFileReader(file.getAbsolutePath())){
@@ -56,7 +61,6 @@ public class wrapper {
 			}
 			catch(Exception e){
 				System.out.println(file.getName()+ " : " + "No");
-				//e.printStackTrace(System.out);
 			}
 		}
 	}

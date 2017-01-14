@@ -68,7 +68,8 @@ public class HanoiBoard {
 	 * @return
 	 */
 	private boolean checkValidityOfSolution(int initialRod){
-		if(!rods.get(initialRod).isRodEmpty()){
+		//since we count rods from 1 but the data sctructure from 0 , we need to substract 1
+		if(!rods.get(initialRod-1).isRodEmpty()){
 			return false;
 		}
 		int counterOfNotEmptyRods=0;
