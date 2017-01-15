@@ -23,17 +23,18 @@ public class HanoiSolutionFilesCreator {
 		Path currentRelativePath = Paths.get("");
 		String absolutePath = currentRelativePath.toAbsolutePath().toString();
 		absolutePathForPositives = Paths.get(absolutePath + "/" + Constants.POSITIVE_TESTS_DIR_NAME);
-		aboslutePathForNegatives = Paths.get(absolutePath +"/"+ Constants.NEGATIVE_TESTS_DIR_NAME);
-		createDirIfNotExists(absolutePathForPositives);
-		createDirIfNotExists(aboslutePathForNegatives);
+		aboslutePathForNegatives = Paths.get(absolutePath + "/" + Constants.NEGATIVE_TESTS_DIR_NAME);
+		createIfDirExists(absolutePathForPositives);
+		createIfDirExists(aboslutePathForNegatives);
 	}
 
 	/** This one gets a Path and creates if it doesn't exist.	
 	 * 
 	 * @param absolutePathForNewDirectory
 	 * Prints stack if failed to create a directory
+	 * 
 	 */
-	private void createDirIfNotExists(Path absolutePathForNewDirectory) {
+	private void createIfDirExists(Path absolutePathForNewDirectory) {
 		if (!Files.exists(absolutePathForNewDirectory)) {
 	            try {
 	                Files.createDirectories(absolutePathForNewDirectory);
@@ -54,12 +55,13 @@ public class HanoiSolutionFilesCreator {
 	
 	/** Generate test files , up to MAX_NUMBER_OF_DISKS	
 	 *  defined in constants class
+	 *  might print stack if any error writting to file
 	 */
 	private void generateTestsFiles(boolean addErrors){
 		StringBuffer newFilename = new StringBuffer();
 		Path file;
 
-		for(int i=2; i<=Constants.MAX_NUMBER_OF_DISKS;i++){
+		for(int i=2; i <= Constants.MAX_NUMBER_OF_DISKS; i++){
 			file = createFileName(addErrors, newFilename, i);
 			HanoiSolver hs = new HanoiSolver(i, Constants.INITIAL_ROD_NUMBER, Constants.TARGET_ROD_NUMBER,addErrors);
 			List<HanoiMove> moves = new ArrayList<HanoiMove>(hs.getMovesForSolution());

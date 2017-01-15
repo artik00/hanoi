@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.IllegalArgumentException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 import com.art.game.Constants;
 import com.art.game.HanoiMove;
@@ -21,14 +19,21 @@ public class HanoiFileReader implements AutoCloseable{
 	public HanoiSolution getPossibleSolution() {
 		return possibleSolution;
 	}
-
+/** This will read the given file and will try to apply the moves in it	
+ *  on some board
+ * @param filePath - path to that file
+ * 
+ * throws FileNotFoundException in case no file was found
+ * 		  IOException if we had problem reading from file
+ * 		  IllegalArgumentException if there was bad argument in the file
+ */
 	public HanoiFileReader(String filePath){
 		if(filePath!=null){
 			try {
 				bfReader = new BufferedReader(new FileReader(filePath));
-				List<HanoiMove> moves = new ArrayList<HanoiMove>();
+				LinkedList<HanoiMove> moves = new LinkedList<HanoiMove>();
 				String line=bfReader.readLine();
-				//validate the first number , should be number with numnber of disks
+				//validate the first number , should be number of disks
 				validateAllCharsAreNumbers(line);
 				int numberOfDisks=Integer.parseInt(line);
 				while((line =bfReader.readLine() )!= null){
@@ -53,7 +58,9 @@ public class HanoiFileReader implements AutoCloseable{
 	 *  will check that the number is small than the number of disks
 	 *  if it 
 	 * @param line
-	 * @return
+	 * @return true if the line is valid , false otherwise
+	 * 
+	 * throws IllegalArgumentException if some bad argument was read from file
 	 */
 	private HanoiMove checkIsLineValid(String line,int maxNum) throws IllegalArgumentException{
 		HanoiMove move = new HanoiMove();
@@ -75,6 +82,7 @@ public class HanoiFileReader implements AutoCloseable{
 	 * 
 	 * @param line - the line from file
 	 * @param move - creates a move
+	 * throws IllegalArgumentException is bad argument read from line
 	 */
 	private void validateNumbersInGivenRange(String line, HanoiMove move) {
 		int source = Integer.parseInt(line.substring(0, 1));

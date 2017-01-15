@@ -6,7 +6,7 @@ public class HanoiRod {
 	LinkedList<HanoiDisk> diskOrder = new LinkedList<HanoiDisk>();
 	
 	public HanoiRod(int numberOfDiskToInit){
-		for(int i=numberOfDiskToInit; i>0;i--){
+		for(int i=numberOfDiskToInit; i > 0 ; i--){
 			HanoiDisk tempDisk = new HanoiDisk(i);
 			diskOrder.add(tempDisk);
 		}
@@ -27,13 +27,14 @@ public class HanoiRod {
 	 * @return true if added false otherwise
 	 */
 	public boolean addDisk(HanoiDisk disk){
-		if(disk!=null && disk.getSize() > 0 && (isRodEmpty() || disk.getSize() < getLast().getSize())){
-				diskOrder.addLast(disk);
+		if(disk!=null && disk.getSize() > 0){
+				if(isRodEmpty() || disk.getSize() < getLast().getSize()){
+					diskOrder.addLast(disk);
+					return true;
+				}
 		}
-		else{
-			return false;
-		}
-		return true;
+		return false;
+
 	}
 	/**Try to remove the upper disk , 	
 	 * 

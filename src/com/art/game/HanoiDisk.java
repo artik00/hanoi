@@ -1,10 +1,10 @@
 package com.art.game;
 
 public class HanoiDisk {
-	private int size;
+	private final int size;
 	
-	public HanoiDisk(int s){
-		this.size=s;
+	public HanoiDisk(int _size){
+		this.size = _size;
 	}
 	
 	public int getSize(){
